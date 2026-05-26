@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Factorial Visualizer — Matematika Diskrit</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  CANVAS PARTIKEL BACKGROUND                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  GRID FUTURISTIK BACKGROUND                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="grid-bg"></div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  TOAST NOTIFICATION                            -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  NAVIGASI                                      -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-logo">
+      <span class="logo-symbol">∑</span>
+      <span class="logo-text">FactorialLab</span>
+    </div>
+    <div class="nav-links">
+      <a href="#hero" class="nav-link active">Home</a>
+      <a href="#calculator" class="nav-link">Calculator</a>
+      <a href="#history" class="nav-link">History</a>
+      <a href="#education" class="nav-link">Learn</a>
+    </div>
+    <div class="nav-badge">
+      <span class="badge-dot"></span>
+      <span>Matematika Diskrit</span>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  HERO SECTION                                  -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-pill">Matematika Diskrit</span>
+        <span class="eyebrow-pill">Algorithm Visualization</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-line">Visualisasi</span>
+        <span class="title-line gradient-text">Algoritma</span>
+        <span class="title-line">Faktorial</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Eksplorasi mendalam fungsi faktorial melalui visualisasi interaktif.
+        Pahami perbedaan algoritma <strong>Iteratif</strong>, <strong>Rekursif</strong>,
+        dan <strong>Visual Loop</strong> secara real-time.
+      </p>
+
+      <!-- Simbol faktorial animasi -->
+      <div class="factorial-symbols">
+        <span class="sym" style="--d:0s">0!</span>
+        <span class="sym" style="--d:.15s">1!</span>
+        <span class="sym" style="--d:.3s">n!</span>
+        <span class="sym" style="--d:.45s">∞</span>
+        <span class="sym" style="--d:.6s">Σ</span>
+        <span class="sym" style="--d:.75s">∏</span>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('calculator').scrollIntoView({behavior:'smooth'})">
+          <span class="btn-icon">⚡</span>
+          Mulai Eksplorasi
+        </button>
+        <button class="btn-ghost" onclick="document.getElementById('education').scrollIntoView({behavior:'smooth'})">
+          <span class="btn-icon">📖</span>
+          Pelajari Teori
+        </button>
+      </div>
+
+      <!-- Stats mini -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-num" id="statTotal">0</span>
+          <span class="stat-label">Total Kalkulasi</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" id="statMax">—</span>
+          <span class="stat-label">Angka Terbesar</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-num" id="statMethod">—</span>
+          <span class="stat-label">Metode Favorit</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dekorasi kanan hero -->
+    <div class="hero-deco">
+      <div class="deco-ring ring-1"></div>
+      <div class="deco-ring ring-2"></div>
+      <div class="deco-ring ring-3"></div>
+      <div class="deco-formula">
+        <div class="formula-line">n! = n × (n−1)!</div>
+        <div class="formula-line">0! = 1</div>
+        <div class="formula-line">n! = ∏ k, k=1→n</div>
+      </div>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll untuk mulai</span>
+      <span class="scroll-arrow">↓</span>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  KALKULATOR UTAMA                              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="calculator-section" id="calculator">
+    <div class="section-header">
+      <span class="section-tag">// CALCULATOR ENGINE</span>
+      <h2 class="section-title">Hitung <span class="gradient-text">Faktorial</span></h2>
+      <p class="section-desc">Pilih metode algoritma, masukkan angka, dan saksikan proses perhitungan secara visual.</p>
+    </div>
+
+    <div class="calc-container">
+
+      <!-- Panel Input -->
+      <div class="input-panel glass-card">
+        <div class="panel-header">
+          <span class="panel-icon">⌨</span>
+          <span class="panel-title">Input</span>
+        </div>
+
+        <!-- Input angka -->
+        <div class="input-group">
+          <label class="input-label">Masukkan Nilai n</label>
+          <div class="input-wrapper">
+            <span class="input-prefix">n =</span>
+            <input type="number" id="numberInput" class="main-input"
+              placeholder="0 — 170" min="0" max="170" />
+            <button class="input-clear" id="btnClear" title="Reset">✕</button>
+          </div>
+          <div class="input-error" id="inputError"></div>
+          <div class="input-hint">Rentang valid: 0 hingga 170</div>
+        </div>
+
+        <!-- Slider -->
+        <div class="slider-group">
+          <input type="range" id="numberSlider" class="range-slider" min="0" max="20" value="5" />
+          <div class="slider-labels"><span>0</span><span>20</span></div>
+        </div>
+
+        <!-- Pilih metode -->
+        <div class="method-group">
+          <label class="input-label">Algoritma</label>
+          <div class="method-cards">
+            <div class="method-card active" data-method="iterative" onclick="selectMethod(this)">
+              <span class="method-icon">🔁</span>
+              <span class="method-name">Iteratif</span>
+              <span class="method-badge">O(n)</span>
+            </div>
+            <div class="method-card" data-method="recursive" onclick="selectMethod(this)">
+              <span class="method-icon">🌀</span>
+              <span class="method-name">Rekursif</span>
+              <span class="method-badge">O(n)</span>
+            </div>
+            <div class="method-card" data-method="visual" onclick="selectMethod(this)">
+              <span class="method-icon">🎞</span>
+              <span class="method-name">Visual Loop</span>
+              <span class="method-badge">Animated</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Kecepatan animasi -->
+        <div class="speed-group">
+          <label class="input-label">Kecepatan Animasi</label>
+          <div class="speed-options">
+            <button class="speed-btn" data-speed="800" onclick="setSpeed(this)">🐢 Lambat</button>
+            <button class="speed-btn active" data-speed="400" onclick="setSpeed(this)">🐇 Normal</button>
+            <button class="speed-btn" data-speed="100" onclick="setSpeed(this)">⚡ Cepat</button>
+          </div>
+        </div>
+
+        <!-- Tombol aksi -->
+        <div class="action-buttons">
+          <button class="btn-calc" id="btnCalculate" onclick="calculate()">
+            <span class="btn-calc-icon">▶</span>
+            Hitung
+          </button>
+          <button class="btn-random" onclick="randomNumber()">
+            <span>🎲</span>
+            Random
+          </button>
+          <button class="btn-reset" onclick="resetAll()">
+            <span>↺</span>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Panel Hasil -->
+      <div class="result-panel">
+
+        <!-- Kartu hasil utama -->
+        <div class="result-main glass-card" id="resultMain">
+          <div class="result-placeholder" id="resultPlaceholder">
+            <div class="placeholder-icon">⬡</div>
+            <p>Masukkan angka dan tekan <strong>Hitung</strong></p>
+          </div>
+          <div class="result-content" id="resultContent" style="display:none">
+            <div class="result-top">
+              <div class="result-label-big">Hasil Faktorial</div>
+              <div class="result-formula" id="resultFormula"></div>
+            </div>
+            <div class="result-value-wrap">
+              <span class="result-n" id="resultN"></span>
+              <span class="result-eq">! =</span>
+              <span class="result-val" id="resultVal"></span>
+            </div>
+            <div class="result-meta">
+              <div class="meta-item">
+                <span class="meta-icon">⏱</span>
+                <span class="meta-label">Waktu</span>
+                <span class="meta-val" id="metaTime">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">🔢</span>
+                <span class="meta-label">Iterasi</span>
+                <span class="meta-val" id="metaIter">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">📏</span>
+                <span class="meta-label">Digit</span>
+                <span class="meta-val" id="metaDigits">—</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-icon">🧮</span>
+                <span class="meta-label">Metode</span>
+                <span class="meta-val" id="metaMethod">—</span>
+              </div>
+            </div>
+            <div class="result-actions">
+              <button class="btn-copy" onclick="copyResult()" title="Copy hasil">
+                📋 Copy Hasil
+              </button>
+              <button class="btn-copy" onclick="copyFormula()" title="Copy formula">
+                📐 Copy Formula
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="progress-wrap glass-card" id="progressWrap" style="display:none">
+          <div class="progress-header">
+            <span>Proses Perhitungan</span>
+            <span id="progressPct">0%</span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-step-info" id="progressStepInfo"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!--  VISUALISASI ALGORITMA                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="viz-section glass-card" id="vizSection" style="display:none">
+      <div class="viz-header">
+        <div class="viz-title-wrap">
+          <span class="viz-icon">◈</span>
+          <span class="viz-title">Visualisasi Algoritma</span>
+          <span class="viz-method-tag" id="vizMethodTag"></span>
+        </div>
+        <button class="btn-viz-replay" onclick="replayVisualization()">↺ Replay</button>
+      </div>
+
+      <!-- Kotak-kotak angka bergerak -->
+      <div class="viz-boxes" id="vizBoxes"></div>
+
+      <!-- Operator animasi -->
+      <div class="viz-operators" id="vizOperators"></div>
+
+      <!-- Rekursi stack (khusus rekursif) -->
+      <div class="viz-stack" id="vizStack" style="display:none">
+        <div class="stack-title">Call Stack</div>
+        <div class="stack-frames" id="stackFrames"></div>
+      </div>
+
+      <!-- Step detail -->
+      <div class="viz-steps" id="vizSteps">
+        <div class="steps-title">Langkah-Langkah</div>
+        <div class="steps-list" id="stepsList"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  RIWAYAT PERHITUNGAN                           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="history-section" id="history">
+    <div class="section-header">
+      <span class="section-tag">// HISTORY LOG</span>
+      <h2 class="section-title">Riwayat <span class="gradient-text">Perhitungan</span></h2>
+    </div>
+    <div class="history-container">
+      <div class="history-controls">
+        <button class="btn-clear-history" onclick="clearHistory()">🗑 Hapus Semua</button>
+        <span class="history-count" id="historyCount">0 Entri</span>
+      </div>
+      <div class="history-list" id="historyList">
+        <div class="history-empty">
+          <span class="empty-icon">📋</span>
+          <p>Belum ada riwayat perhitungan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  SECTION EDUKASI                               -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <section class="education-section" id="education">
+    <div class="section-header">
+      <span class="section-tag">// KNOWLEDGE BASE</span>
+      <h2 class="section-title">Pelajari <span class="gradient-text">Faktorial</span></h2>
+    </div>
+
+    <div class="edu-grid">
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">📐</div>
+        <h3>Apa itu Faktorial?</h3>
+        <p>Faktorial dari bilangan bulat non-negatif <em>n</em>, dinotasikan <strong>n!</strong>, adalah hasil perkalian semua bilangan bulat positif dari 1 hingga n.</p>
+        <div class="edu-formula">n! = 1 × 2 × 3 × … × n</div>
+        <p>Kasus khusus: <strong>0! = 1</strong> (by definition).</p>
+      </div>
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">🔢</div>
+        <h3>Rumus Matematis</h3>
+        <div class="edu-formula">n! = ∏ k (k = 1 to n)</div>
+        <div class="edu-formula">n! = n × (n−1)!</div>
+        <p>Contoh nilai:</p>
+        <ul class="edu-list">
+          <li>5! = 5×4×3×2×1 = <strong>120</strong></li>
+          <li>10! = <strong>3,628,800</strong></li>
+          <li>20! = <strong>2.43 × 10¹⁸</strong></li>
+        </ul>
+      </div>
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">🔁</div>
+        <h3>Algoritma Iteratif</h3>
+        <div class="edu-code"><pre>function faktorialIteratif(n) {
+  let hasil = 1;
+  for (let i = 2; i <= n; i++) {
+    hasil *= i;
+  }
+  return hasil;
+}</pre></div>
+        <p>Menggunakan loop sederhana. Efisien dalam penggunaan memori — tidak membangun call stack.</p>
+      </div>
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">🌀</div>
+        <h3>Algoritma Rekursif</h3>
+        <div class="edu-code"><pre>function faktorialRekursif(n) {
+  if (n === 0 || n === 1) return 1;
+  return n * faktorialRekursif(n - 1);
+}</pre></div>
+        <p>Memanggil dirinya sendiri hingga mencapai base case. Elegan secara kode namun menggunakan call stack.</p>
+      </div>
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">📊</div>
+        <h3>Kompleksitas Algoritma</h3>
+        <table class="edu-table">
+          <thead>
+            <tr><th>Aspek</th><th>Iteratif</th><th>Rekursif</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Waktu</td><td>O(n)</td><td>O(n)</td></tr>
+            <tr><td>Ruang</td><td>O(1)</td><td>O(n)</td></tr>
+            <tr><td>Stack</td><td>Tidak</td><td>Ya</td></tr>
+            <tr><td>Keterbacaan</td><td>Sedang</td><td>Tinggi</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="edu-card glass-card">
+        <div class="edu-card-icon">🌐</div>
+        <h3>Penerapan Faktorial</h3>
+        <ul class="edu-list">
+          <li><strong>Kombinatorik</strong> — C(n,r) = n! / (r!(n-r)!)</li>
+          <li><strong>Permutasi</strong> — P(n,r) = n! / (n-r)!</li>
+          <li><strong>Deret Taylor</strong> — e^x = Σ xⁿ/n!</li>
+          <li><strong>Probabilitas</strong> — Distribusi Poisson</li>
+          <li><strong>Kriptografi</strong> — RSA, key generation</li>
+          <li><strong>Machine Learning</strong> — Naive Bayes</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--  FOOTER                                        -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <span class="logo-symbol">∑</span>
+        <span class="logo-text">FactorialLab</span>
+      </div>
+      <p class="footer-desc">Media pembelajaran interaktif Matematika Diskrit</p>
+      <p class="footer-sub">Dibuat dengan ❤ menggunakan HTML5, CSS3 & Vanilla JS</p>
+    </div>
+    <div class="footer-math">
+      <span>n! = n × (n−1)!</span>
+      <span>0! = 1</span>
+      <span>O(n) time</span>
+    </div>
+  </footer>
+  <script src="java.js"></script>
+</body>
+</html>
