@@ -145,7 +145,7 @@ function validate(val) {
   if (isNaN(val)) return 'Masukkan angka yang valid.';
   const n = parseInt(val, 10);
   if (n < 0)   return 'Angka tidak boleh negatif.';
-  if (n > 170) return 'Angka maksimal adalah 170.';
+  if (n > 1000) return 'Angka maksimal adalah 1000.';
   return null; // valid
 }
 
@@ -196,6 +196,7 @@ async function calculate() {
 
   const n = parseInt(raw, 10);
   clearError();
+  
   state.isRunning = true;
 
   const btnCalc = document.getElementById('btnCalculate');
